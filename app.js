@@ -6,6 +6,7 @@ const connectDB = require("./config/db");
 
 // routes
 const authRoutes = require("./src/routes/authRoutes");
+const transactionRoutes = require("./src/routes/transactionRoutes");
 
 // port 
 
@@ -27,14 +28,14 @@ app.use(express.json());
 
 // routes to use to handle requests
 app.use("/user", authRoutes);
-
+app.use("/transactions", transactionRoutes);
 
 // test port 
 app.get('/', (req, res)=> {
     res.send("Hii Enzu, I work!")
 })
 
-// connect
+// connect to server
 app.listen(PORT, ()=> {
     console.log(`Hi, connected app on port ${PORT}`)
 })

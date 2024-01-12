@@ -123,3 +123,5 @@ const verifyEmail = async (req, res) => {
     }
 }
 
+
+// add forgot password and reset password features

@@ -21,6 +21,13 @@ const userSchema = new mongoose.Schema({
         required: [true, "Please enter a password"],
         minlength: [6, "Enter a password longer than 5 characters"]
     },
+    emailVerified: {
+        type: Boolean,
+        default: false
+    },
+    transactions: {
+        type: []
+    }
     
 },
  { tinestamps: true 
