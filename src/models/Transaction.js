@@ -26,7 +26,7 @@ const transactionSchema = new mongoose.Schema({
         required: true
     },
     user: {
-        type: mongoose.Types.Schema.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
     createdAt: {
