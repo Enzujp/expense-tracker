@@ -26,7 +26,7 @@ app.use(express.json());
 
 
 // routes to use to handle requests
-app.use("user", authRoutes);
+app.use("/user", authRoutes);
 
 
 // test port 
