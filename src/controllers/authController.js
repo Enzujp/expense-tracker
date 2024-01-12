@@ -3,6 +3,9 @@ const { User } = require("../models/User");
 const bcrypt = require("bcrypt");
 const createToken = require("../../config/token");
 
+// create a general error function for signup
+
+
 module.exports.get_signup = (req, res) => {
   res.send("This is the signup page!");
 };
@@ -28,8 +31,9 @@ module.exports.post_signup = async (req, res) => {
       // create user token with email
       const token = createToken(user.email);
       await user.save();
-      
-      res.status(201).json("User created successfully").json({
+
+      return res.status(201).json({
+        message: "User successfully created",
         user: user._id,
         email: user.email,
         token: token,
@@ -49,6 +53,9 @@ module.exports.get_login = (req, res) => {
 };
 
 module.exports.post_login = async (req, res) => {
-  try {
-  } catch (error) {}
+  try { 
+  } catch (error) {
+
+  } 
 };
+
