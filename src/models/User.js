@@ -20,8 +20,12 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please enter a password"],
         minlength: [6, "Enter a password longer than 5 characters"]
-    }
-})
+    },
+    
+},
+ { tinestamps: true 
+}
+);
 
 
 const User = mongoose.model('user', userSchema);
