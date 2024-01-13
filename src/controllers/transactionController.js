@@ -66,16 +66,81 @@ module.exports.add_transaction_post = async (req, res) => {
 }
 
 
-
 // get transaction using Id
 module.exports.get_transaction_by_id = async (req, res) => {
 // ideally we would use sessions for this
+try {
+    const id = req.params.transactionId;
+    if (req.user){
+        const transaction = await Transaction.findOne({_id: id});
+        if (transaction){
+            res.status(200).json({
+                success: true,
+                transaction: transaction
+            })
+        }
+        else {
+            res.status(400).json({
+                message: "No Transactions matching this Id."
+            })
+        }
+        
+    }
+    return res.status(400).json({
+        message: "Unauthorized. You don't have access to this transaction."
+    })
+    
+} catch (error) {
+    console.log(error);
+    res.status(500).json({
+        message: "Couldn't find transaction"
+    })
+}
 }
 
 
+module.exports.get_transactions_in_specified_range = async (req, res) => {
+    try {
+        const { userId, type, frequency, startDate, endDate } = req.body;
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found!"
+            })
+        }
+        const query = {
+            user: userId
+        }
+        if (type !== 'all') {
+            query.transactionType = type;
+        }
 
-module.exports.get_all_transactions = async (req, res) => {
-
+        // Set date conditions on frequency and custom range
+        if (frequency !== 'custom') {
+            query.date = {
+                $gt: moment().subtract(Number(frequency), "days").toDate()
+            }
+        } else if (startDate && endDate) {
+            query.date = {
+                $gte: moment(startDate).toDate(),
+                $lte: moment(endDate).toDate()
+            };
+        }
+        const transactions = await Transaction.find(query);
+        return res.status(200).json({
+            message: "Here are your transactions in stipulated time period",
+            transactions: transactions
+        })
+            
+        
+        
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({
+            error: error.message,
+            message: "Could not retrieve transactions at this time"
+        })
+    }
 }
 
 
